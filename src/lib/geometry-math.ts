@@ -54,7 +54,7 @@ export class GeometryMath {
          * 否则射线穿过多边形的交点数量判断会有问题
          * 即 minY 和 maxY 只选择一种做判断
          */
-        if (maxY == vR.y) return false;
+        if (maxY === vR.y) return false;
 
         /**
          * 线段两个端点分别在射线上下，求线段在射线上的 x 点

@@ -194,8 +194,8 @@ export class Polygon {
     isV1BeforeV2(v1: Vec2, v2: Vec2) {
         let cur = this._head!;
         do {
-            if (cur.pos == v1 && cur.next!.pos == v2) return true;
-            else if (cur.pos == v2 && cur.next!.pos == v1) return false;
+            if (cur.pos!.equals(v1) && cur.next!.pos!.equals(v2)) return true;
+            else if (cur.pos!.equals(v2) && cur.next!.pos!.equals(v1)) return false;
             cur = cur.next!;
         } while (!cur.isSameVert(this._head!));
         return false;

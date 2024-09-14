@@ -95,15 +95,20 @@ function test() {
     const polygon = new Polygon();
     for (let i = 0; i < polygonVertexNum; i++) {
         const v1 = VecArr[i];
-        let v2: Vec2;
-        if (i == polygonVertexNum - 1) {
-            v2 = VecArr[0];
-        } else {
-            v2 = VecArr[i + 1];
-        }
         polygon.insert(i, v1);
     }
     canvasDebugDrawer.drawPolygon(polygon, null, 颜色.品红);
+
+    let posOffsetIdx = 0;
+    holeVertexNum.forEach((num) => {
+        const hole = new Polygon();
+        for (let i = 0; i < num; i++) {
+            const v1 = VecArr[polygonVertexNum + posOffsetIdx];
+            hole.insert(polygonVertexNum + posOffsetIdx, v1);
+            posOffsetIdx = posOffsetIdx + 1;
+        }
+        canvasDebugDrawer.drawPolygon(hole, 颜色.棕色, 颜色.黑色, 2);
+    })
 }
 
 test();
