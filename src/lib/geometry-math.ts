@@ -26,10 +26,40 @@ export class Vec2 {
         out.y = this.y + (other.y - this.y) * 0.5;
         return out;
     }
+
+    distance(other: Vec2) {
+        const x = this.x - other.x;
+        const y = this.y - other.y;
+        return Math.sqrt(x * x + y * y);
+    }
+
+    distanceSqr(other: Vec2) {
+        const x = this.x - other.x;
+        const y = this.y - other.y;
+        return x * x + y * y;
+    }
+
+    clone() {
+        return new_vec2(this.x, this.y);
+    }
 }
 export const new_vec2 = (x?: number, y?: number) => { return new Vec2(x, y) }
 
-export const make_pair = (first: any, second: any) => { return { first, second }; }
+export const make_pair = <T>(first: T, second: T) => { return { first, second }; }
+
+export class PriorityQueue<T> extends Array<T> {
+    constructor(
+        private _cmp: ((a: T, b: T) => number)
+    ) {
+        super();
+    }
+
+    push(...items: T[]): number {
+        const length = super.push(...items);
+        this.sort(this._cmp);
+        return length;
+    }
+}
 
 export class GeometryMath {
     /**

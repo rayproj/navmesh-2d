@@ -4,6 +4,8 @@ import { Vertex } from "./vertex";
 
 export class Polygon {
     private _head: Vertex | null = null;
+    private _convexPolygonId = 0;
+    private _searchPointIdx: number[] = [];
 
     getHead() { return this._head!; }
 
@@ -184,6 +186,16 @@ export class Polygon {
         return data;
     }
 
+    getVertData() {
+        const data: Vertex[] = [];
+        let cur = this._head!;
+        do {
+            data.push(cur);
+            cur = cur.next!;
+        } while (!cur.isSameVert(this._head!));
+        return data;
+    }
+
     getInnerVec2() {
         const head = this._head!;
         const v1 = head.pos!.getMidpoint(new_vec2(), head.next!.pos!);
@@ -200,6 +212,12 @@ export class Polygon {
         } while (!cur.isSameVert(this._head!));
         return false;
     }
+
+    setConvexPolygonId(id: number) { this._convexPolygonId = id; }
+    getConvexPolygonId() { return this._convexPolygonId; }
+
+    insertSearchPointIdx(searchPointIdx: number) { this._searchPointIdx.push(searchPointIdx); }
+    getSearchPointIdx() { return this._searchPointIdx; };
 
     display() {
         let cur = this._head!;
