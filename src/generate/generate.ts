@@ -1,4 +1,4 @@
-import { writeFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { Polygon } from "../lib/polygon";
 import { Vertex } from "../lib/vertex";
 import { SearchPoint } from "../lib/search-point";
@@ -6,7 +6,7 @@ import { SearchPoint } from "../lib/search-point";
 class Generate {
     generatePolygons(
         polygons: Map<number, Polygon>, searchPoints: SearchPoint[],
-        name: string
+        path: string, name: string
     ) {
         const serializePolygons = {} as { [key: number]: { polygon: Polygon, vertexs: Vertex[] } };
         for (const [key, polygon] of polygons) {
@@ -31,8 +31,12 @@ class Generate {
             // }
         }
 
-        const serializeStr = JSON.stringify({serializePolygons, searchPoints});
-        writeFileSync(`${name}.json`, serializeStr);
+        const serializeStr = JSON.stringify({ serializePolygons, searchPoints });
+
+        if (path && !existsSync(path)) {
+            mkdirSync(path, { recursive: true });
+        }
+        writeFileSync(`${path}${name}.json`, serializeStr);
     }
 }
 export const generater = new Generate();

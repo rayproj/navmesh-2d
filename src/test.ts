@@ -1,3 +1,4 @@
+import { existsSync } from "fs";
 import { canvasDebugDrawer } from "./debug/canvas-debug-draw";
 import { 颜色 } from "./debug/color";
 import { generater } from "./generate/generate";
@@ -102,7 +103,7 @@ function drawClear() {
 drawClear();
 let drawHash = 1;
 function drawOut() {
-    canvasDebugDrawer.out(drawHash++ + '');
+    canvasDebugDrawer.out('test/', drawHash++ + '');
 }
 
 function linkHole() {
@@ -409,7 +410,7 @@ function aStarAlgorithm(tarPolygonIdx: number, tarPos: Vec2) {
         // if (PathSmoothing) {
         //     createSmoothPath(node, tarPos);
         // } else {
-        //     createPath(node, tarPos);
+        createPath(tempNode, tarPos);
         // }
         return;
     }
@@ -434,6 +435,17 @@ function aStarAlgorithm(tarPolygonIdx: number, tarPos: Vec2) {
         }
     }
     aStarAlgorithm(tarPolygonIdx, tarPos);
+}
+
+function createPath(node: AStarNode, tarPos: Vec2) {
+    let last: Vec2, next: Vec2;
+    last = tarPos;
+    do {
+        next = searchPoints[node.searchPointIdx].vecMid;
+        moveVec.push(next);
+        last = next;
+        node = node.parentNode;
+    } while (node != null);
 }
 
 const polygons: Polygon[] = [];
@@ -472,7 +484,9 @@ function test() {
         holes.push(hole);
     })
 
+    drawOut();
     linkHole();
+    drawOut();
     clipPolygon();
     drawOut();
 
@@ -495,7 +509,7 @@ function test() {
 
     parseNavMeshData();
 
-    generater.generatePolygons(convexPolygons, searchPoints, 'test')
+    generater.generatePolygons(convexPolygons, searchPoints, 'test/', 'test')
 }
 
 test();

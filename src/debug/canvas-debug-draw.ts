@@ -1,6 +1,6 @@
 import { Canvas, createCanvas, CanvasRenderingContext2D, CanvasGradient, CanvasPattern } from "canvas";
 import { DebugDraw } from "./debug-draw";
-import { createWriteStream, writeFileSync } from "fs";
+import { createWriteStream, existsSync, mkdirSync, writeFileSync } from "fs";
 import { Polygon } from "../lib/polygon";
 import { new_vec2, Vec2 } from "../lib/geometry-math";
 import { 颜色 } from "./color";
@@ -68,7 +68,7 @@ class CanvasDebugDraw extends DebugDraw {
         }
     }
 
-    out(hash = '') {
+    out(path = '', hash = '') {
         // const out = createWriteStream(`debug${hash}.png`);
         // const stream = this._canvas!.createPNGStream();
         // stream.pipe(out);
@@ -76,7 +76,10 @@ class CanvasDebugDraw extends DebugDraw {
         //     console.log('debug out finish...');
         // });
         const buffer = this._canvas!.toBuffer('image/png');
-        writeFileSync(`debug${hash}.png`, buffer);
+        if (path && !existsSync(path)) {
+            mkdirSync(path, { recursive: true });
+        }
+        writeFileSync(`${path}debug${hash}.png`, buffer);
         console.log('debug out finish...');
     }
 
