@@ -4,7 +4,8 @@
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "canvas": "^2.11.2"
+    "canvas": "^2.11.2",
+    "martinez-polygon-clipping": "^0.7.4"
   },
   "scripts": {
     "test": "npx tsc && node dist/test"

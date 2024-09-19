@@ -68,7 +68,7 @@ class CanvasDebugDraw extends DebugDraw {
         }
     }
 
-    out(path = '', hash = '') {
+    out(path = '', name = '') {
         // const out = createWriteStream(`debug${hash}.png`);
         // const stream = this._canvas!.createPNGStream();
         // stream.pipe(out);
@@ -79,7 +79,7 @@ class CanvasDebugDraw extends DebugDraw {
         if (path && !existsSync(path)) {
             mkdirSync(path, { recursive: true });
         }
-        writeFileSync(`${path}debug${hash}.png`, buffer);
+        writeFileSync(`${path}${name}.png`, buffer);
         console.log('debug out finish...');
     }
 

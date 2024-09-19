@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { canvasDebugDrawer } from "./debug/canvas-debug-draw";
 import { 颜色 } from "./debug/color";
 import { generater } from "./generate/generate";
@@ -9,8 +9,16 @@ import { Line } from "./lib/line";
 import { Polygon } from "./lib/polygon";
 import { SearchPoint } from "./lib/search-point";
 import { Vertex } from "./lib/vertex";
+import { unionPolygon } from "./lib/union-polygon";
 
-const VecArr = [
+export type TMapData = {
+    points: [number, number][],
+    polygonVertexNum: number,
+    holeVertexNum: number[], size: [number, number],
+    name: string
+}
+
+let VecArr = [
     new_vec2(100, 100),
     new_vec2(130, 70),
     new_vec2(170, 110),
@@ -92,10 +100,43 @@ const VecArr = [
     new_vec2(220, 460),
     new_vec2(200, 445),
 ];
-const polygonVertexNum = 25;
-const holeVertexNum = [4, 4, 3, 4, 4, 3, 6, 4, 14];
+let polygonVertexNum = 25;
+let holeVertexNum = [4, 4, 3, 4, 4, 3, 6, 4, 14];
+let maxWidth = 1200, maxHeight = 700;
+let mapName = 'test';
+
 const PolygonMaxVertex = 10;
-const maxWidth = 1200, maxHeight = 700;
+
+const mapPath = `map/map.json`;
+if (existsSync(mapPath)) {
+    const mapStr = readFileSync(`map/map.json`, 'utf-8');
+    if (mapStr) {
+        let mapData: TMapData = null;
+        try {
+            mapData = JSON.parse(mapStr);
+        } catch (error) {
+            console.log('invalid map data, use default map data.')
+        }
+        if (mapData) {
+            // union
+            unionPolygon(mapData);
+
+            VecArr = [];
+            const points = mapData.points;
+            for (let g = 0; g < points.length; g++) {
+                const point = points[g];
+                VecArr[g] = new_vec2(point[0], point[1]);
+            }
+
+            polygonVertexNum = mapData.polygonVertexNum;
+            holeVertexNum = mapData.holeVertexNum;
+            maxWidth = mapData.size[0];
+            maxHeight = mapData.size[1];
+            mapName = mapData.name;
+            console.log('load map data success.')
+        }
+    }
+}
 
 function drawClear() {
     canvasDebugDrawer.init(maxWidth, maxHeight, 颜色.白色);
@@ -103,7 +144,7 @@ function drawClear() {
 drawClear();
 let drawHash = 1;
 function drawOut() {
-    canvasDebugDrawer.out('test/', drawHash++ + '');
+    canvasDebugDrawer.out('test/', `${mapName}${drawHash++}`);
 }
 
 function linkHole() {
@@ -509,7 +550,7 @@ function test() {
 
     parseNavMeshData();
 
-    generater.generatePolygons(convexPolygons, searchPoints, 'test/', 'test')
+    generater.generatePolygons(convexPolygons, searchPoints, 'test/', mapName)
 }
 
 test();
