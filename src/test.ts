@@ -10,6 +10,7 @@ import { Polygon } from "./lib/polygon";
 import { SearchPoint } from "./lib/search-point";
 import { Vertex } from "./lib/vertex";
 import { unionPolygon } from "./lib/union-polygon";
+import { argv } from "process";
 
 export type TMapData = {
     points: [number, number][],
@@ -107,9 +108,9 @@ let mapName = 'test';
 
 const PolygonMaxVertex = 10;
 
-const mapPath = `map/map.json`;
+const mapPath = argv[2];
 if (existsSync(mapPath)) {
-    const mapStr = readFileSync(`map/map.json`, 'utf-8');
+    const mapStr = readFileSync(mapPath, 'utf-8');
     if (mapStr) {
         let mapData: TMapData = null;
         try {

@@ -8,6 +8,7 @@
     "martinez-polygon-clipping": "^0.7.4"
   },
   "scripts": {
-    "test": "npx tsc && node dist/test"
+    "test": "npx tsc && node dist/test",
+    "test-json": "npx tsc && node dist/test map/map.json"
   }
 }
