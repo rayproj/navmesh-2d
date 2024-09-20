@@ -1,14 +1,17 @@
 {
   "devDependencies": {
     "@types/node": "^22.5.5",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "@types/xml2js": "^0.4.14"
   },
   "dependencies": {
     "canvas": "^2.11.2",
-    "martinez-polygon-clipping": "^0.7.4"
+    "martinez-polygon-clipping": "^0.7.4",
+    "xml2js": "^0.6.2"
   },
   "scripts": {
     "test": "npx tsc && node dist/test",
-    "test-json": "npx tsc && node dist/test map/map.json"
+    "test-json": "npx tsc && node dist/test map/map.json",
+    "test-tiled": "npx tsc && node dist/tiled/xml2js map/tiled/tiled.tmx && node dist/test map/tiled/tiled.json"
   }
 }

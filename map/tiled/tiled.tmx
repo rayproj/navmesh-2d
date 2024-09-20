@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.4" orientation="hexagonal" renderorder="right-down" width="44" height="113" tilewidth="200" tileheight="120" infinite="0" hexsidelength="0" staggeraxis="y" staggerindex="odd" nextlayerid="3" nextobjectid="4">
+ <objectgroup id="2" name="障碍">
+  <object id="1" x="920" y="600" width="1504" height="704"/>
+  <object id="2" x="2032" y="2544">
+   <polygon points="0,0 -8,568 1744,568 1752,8"/>
+  </object>
+  <object id="3" x="4504" y="1704">
+   <polygon points="0,0 1168,0 104,576"/>
+  </object>
+ </objectgroup>
+</map>
