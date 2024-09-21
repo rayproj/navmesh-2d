@@ -1,3 +1,5 @@
+import { randomInt } from "../lib/utils";
+
 export const 颜色 = {
     白色: '#FFFFFF',
     黑色: '#000000',
@@ -17,4 +19,8 @@ export const 颜色 = {
     米色: '#F5F5DC',
     浅绿色: '#90EE90',
     淡紫色: '#E6E6FA',
+}
+
+export function randomColor() {
+    return `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
 }

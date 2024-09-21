@@ -10,8 +10,8 @@
     "xml2js": "^0.6.2"
   },
   "scripts": {
-    "test": "npx tsc && node dist/test",
-    "test-json": "npx tsc && node dist/test map/map.json",
-    "test-tiled": "npx tsc && node dist/tiled/xml2js map/tiled/tiled.tmx && node dist/test map/tiled/tiled.json"
+    "bake-json": "npx tsc && node dist/bake-json map/json/map.json",
+    "bake-json2": "npx tsc && node dist/bake-json map/json/map2.json true",
+    "bake-tiled": "npx tsc && node dist/bake-tiled map/tiled/tiled.tmx"
   }
 }

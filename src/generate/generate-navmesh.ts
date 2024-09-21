@@ -1,17 +1,19 @@
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import { Polygon } from "../lib/polygon";
-import { Vertex } from "../lib/vertex";
-import { SearchPoint } from "../lib/search-point";
+import { log } from "../debug/log";
+import { SearchPoint } from "../lib/astar/search-point";
+import { Polygon } from "../lib/geometry/polygon";
+import { Vertex } from "../lib/geometry/vertex";
+import { writeFileSync_safe } from "../lib/utils";
 
-class Generate {
-    generatePolygons(
+export const OutPath = 'navmesh/';
+
+class GenerateNavmesh {
+    generate(
         polygons: Map<number, Polygon>, searchPoints: SearchPoint[],
-        path: string, name: string
+        name: string
     ) {
         const serializePolygons = {} as { [key: number]: { polygon: Polygon, vertexs: Vertex[] } };
         for (const [key, polygon] of polygons) {
             const vertexs = polygon.getVertData();
-            // if (Object.keys(serializePolygons).length == 0) {
             serializePolygons[key] = {
                 polygon: new Polygon(),
                 vertexs
@@ -28,15 +30,12 @@ class Generate {
                 // @ts-ignore
                 tempVertex.next = vertexs.indexOf(tempVertex.next);
             }
-            // }
         }
 
         const serializeStr = JSON.stringify({ serializePolygons, searchPoints });
-
-        if (path && !existsSync(path)) {
-            mkdirSync(path, { recursive: true });
-        }
-        writeFileSync(`${path}${name}.json`, serializeStr);
+        writeFileSync_safe(`${OutPath}${name}.json`, serializeStr);
+        log(`generate ${OutPath}${name}.json success.`)
     }
 }
-export const generater = new Generate();
+
+export const generater_navmesh = new GenerateNavmesh();

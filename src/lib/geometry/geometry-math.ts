@@ -1,65 +1,4 @@
-export const EPSILON = 0.000001
-
-export class Vec2 {
-    constructor(
-        public x: number = 0,
-        public y: number = 0
-    ) { }
-
-    cross(other: Vec2) {
-        return this.x * other.y - this.y * other.x;
-    }
-
-    subtract(out: Vec2, other: Vec2) {
-        out.x = this.x - other.x;
-        out.y = this.y - other.y;
-        return out;
-    }
-
-    equals(other: Vec2, epsilon = EPSILON) {
-        return Math.abs(this.x - other.x) <= epsilon &&
-            Math.abs(this.y - other.y) <= epsilon
-    }
-
-    getMidpoint(out: Vec2, other: Vec2) {
-        out.x = this.x + (other.x - this.x) * 0.5;
-        out.y = this.y + (other.y - this.y) * 0.5;
-        return out;
-    }
-
-    distance(other: Vec2) {
-        const x = this.x - other.x;
-        const y = this.y - other.y;
-        return Math.sqrt(x * x + y * y);
-    }
-
-    distanceSqr(other: Vec2) {
-        const x = this.x - other.x;
-        const y = this.y - other.y;
-        return x * x + y * y;
-    }
-
-    clone() {
-        return new_vec2(this.x, this.y);
-    }
-}
-export const new_vec2 = (x?: number, y?: number) => { return new Vec2(x, y) }
-
-export const make_pair = <T>(first: T, second: T) => { return { first, second }; }
-
-export class PriorityQueue<T> extends Array<T> {
-    constructor(
-        private _cmp: ((a: T, b: T) => number)
-    ) {
-        super();
-    }
-
-    push(...items: T[]): number {
-        const length = super.push(...items);
-        this.sort(this._cmp);
-        return length;
-    }
-}
+import { new_vec2, Vec2 } from "./vec2";
 
 export class GeometryMath {
     /**
@@ -186,4 +125,55 @@ export class GeometryMath {
         if (this.isInLeft(vc, vd, va) === this.isInLeft(vc, vd, vb)) return false;
         return true;
     }
+}
+
+// 计算多边形中心点
+function getCentroid(polygon: [number, number][]) {
+    let x = 0, y = 0;
+    const numPoints = polygon.length;
+    polygon.forEach(point => {
+        x += point[0];
+        y += point[1];
+    });
+    return [x / numPoints, y / numPoints];
+}
+
+// 扩大多边形
+export function scalePolygon(polygon: [number, number][], scale: number): [number, number][] {
+    const centroid = getCentroid(polygon);
+    return polygon.map(point => {
+        return [
+            centroid[0] + (point[0] - centroid[0]) * scale,
+            centroid[1] + (point[1] - centroid[1]) * scale
+        ];
+    });
+}
+
+function computeCentroid(polygon: { x: number, y: number }[]) {
+    const centroid = polygon.reduce(
+        (acc, point) => {
+            acc.x += point.x;
+            acc.y += point.y;
+            return acc;
+        },
+        { x: 0, y: 0 }
+    );
+    centroid.x /= polygon.length;
+    centroid.y /= polygon.length;
+    return centroid;
+}
+
+/**
+ * 将多边形的顶点按照逆时针方向排列
+ * 通过计算每个顶点相对于质心（中心点）的极角（polar angle）
+ * 将顶点按照极角从大到小的顺序排列，结果即为逆时针排列的顶点顺序
+ */
+export function sortPolygonCounterClockwise(polygon: { x: number, y: number }[]) {
+    const centroid = computeCentroid(polygon);
+
+    return polygon.sort((a, b) => {
+        const angleA = Math.atan2(a.y - centroid.y, a.x - centroid.x);
+        const angleB = Math.atan2(b.y - centroid.y, b.x - centroid.x);
+        return angleB - angleA;
+    });
 }

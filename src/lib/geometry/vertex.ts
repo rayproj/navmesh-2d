@@ -1,4 +1,4 @@
-import { Vec2 } from "./geometry-math";
+import { Vec2 } from "./vec2";
 
 export class Vertex {
     next: Vertex | null = null;

@@ -1,4 +1,4 @@
-import { new_vec2, Vec2 } from "./geometry-math";
+import { Vec2, new_vec2 } from "../geometry/vec2";
 
 export class SearchPoint {
     vecMid: Vec2 = null;

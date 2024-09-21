@@ -1,5 +1,8 @@
-import { GeometryMath, make_pair, new_vec2, Vec2 } from "./geometry-math";
+import { log } from "../../debug/log";
+import { make_pair } from "../utils";
+import { GeometryMath } from "./geometry-math";
 import { Line } from "./line";
+import { new_vec2, Vec2 } from "./vec2";
 import { Vertex } from "./vertex";
 
 export class Polygon {
@@ -222,7 +225,7 @@ export class Polygon {
     display() {
         let cur = this._head!;
         do {
-            console.log(`---------->> ${cur.id}, ${cur.pos!.x}, ${cur.pos!.y}`);
+            log(`---------->> ${cur.id}, ${cur.pos!.x}, ${cur.pos!.y}`);
             cur = cur.next!;
         } while (!cur.isSameVert(this._head!));
     }

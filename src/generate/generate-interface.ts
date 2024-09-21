@@ -1,4 +1,5 @@
-import { writeFileSync } from "fs";
+import { log } from "../debug/log";
+import { writeFileSync_safe } from "../lib/utils";
 
 function determineArrayTypes(array: any[], name: string, key: string, depth: number, interfacesMap: Object) {
     const types = new Set();
@@ -17,7 +18,7 @@ function determineArrayTypes(array: any[], name: string, key: string, depth: num
                 const mergeObjectBase = (src: Object, dst: Object) => {
                     for (const key in dst) {
                         if (src[key]) {
-                            if(typeof dst[key] === 'object') {
+                            if (typeof dst[key] === 'object') {
                                 mergeObjectBase(src[key], dst[key]);
                             }
                         } else {
@@ -82,7 +83,8 @@ export function generateInterfaces(name: string, obj: Object) {
     const interfacesMap = {};
     const mainInterface = generateInterface(name, obj, 0, interfacesMap);
     const str = Object.values(interfacesMap).join('\n');
-    writeFileSync(`types/${name}.d.ts`, str);
+    writeFileSync_safe(`types/${name}.d.ts`, str);
+    log(`generate types/${name}.d.ts success.`);
 }
 
 
