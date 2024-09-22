@@ -89,7 +89,7 @@ export function navmeshBake(mapData: IMapJsonData, opt: IBakeOptions) {
                 canvasDebugDrawer.drawPolygon(polygon, 颜色.白色, 颜色.灰色, debugLineWidth);
             }
         });
-        canvasDebugDrawer.out(OutPath, `${name}4`);
+        canvasDebugDrawer.out(OutPath, `${name}_4`);
     }
 
     return navmeshData;

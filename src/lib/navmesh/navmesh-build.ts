@@ -365,5 +365,5 @@ function drawClear() {
 
 let drawHash = 1;
 function drawOut() {
-    debugEnable && canvasDebugDrawer.out(OutPath, `${t_mapName}${drawHash++}`);
+    debugEnable && canvasDebugDrawer.out(OutPath, `${t_mapName}_${drawHash++}`);
 }

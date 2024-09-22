@@ -73,7 +73,7 @@ export function optimizeMap(mapData: IMapJsonData, pScaleOpt = pScaleOptimize, d
             canvasDebugDrawer.drawPoints(tPolygon, null, color, debugLineWidth, 0);
         });
     });
-    canvasDebugDrawer.out(OutPath, mapData.name + '_opt');
+    canvasDebugDrawer.out(OutPath, mapData.name + '_0_opt');
 
     return optDatas;
 }
