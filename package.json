@@ -11,7 +11,7 @@
   },
   "scripts": {
     "bake-json": "npx tsc && node dist/bake-json map/json/map.json",
-    "bake-json2": "npx tsc && node dist/bake-json map/json/map2.json true",
-    "bake-tiled": "npx tsc && node dist/bake-tiled map/tiled/tiled.tmx"
+    "bake-json2": "npx tsc && node dist/bake-json map/json/map2.json opt_skip=1",
+    "bake-tiled": "npx tsc && node dist/bake-tiled map/tiled/tiled.tmx debug_lineWidth=10"
   }
 }

@@ -6,17 +6,12 @@ import { Tiled } from "../types/Tiled";
 import { basename, extname } from "path";
 import { sortPolygonCounterClockwise } from "./lib/geometry/geometry-math";
 import { log } from "./debug/log";
-import { navmeshBake, setOptFinish } from "./lib/navmesh/navmesh-bake";
-import { Polygon } from "./lib/geometry/polygon";
-import { canvasDebugDrawer } from "./debug/canvas-debug-draw";
-import { randomColor, 颜色 } from "./debug/color";
-import { OutPath } from "./generate/generate-navmesh";
-
-const debugLineWidth = 10;
+import { navmeshBake, parseOptions } from "./lib/navmesh/navmesh-bake";
 
 let t_mapHeight = 0;
 
 const mapPath = argv[2];
+const opts = argv[3] ? parseOptions(argv[3]) : null;
 const mapStr = readFileSync(mapPath, 'utf-8');
 const parser = new Parser();
 parser.parseString(mapStr, (error, result: Tiled) => {
@@ -63,32 +58,7 @@ parser.parseString(mapStr, (error, result: Tiled) => {
     });
 
     const mapData = { points, polygonVertexNum, holeVertexNum, size, name };
-
-    canvasDebugDrawer.init(mapWidth, mapHeight, 颜色.白色);
-    setOptFinish(optDatas => {
-        optDatas.forEach(optData => {
-            const color = randomColor();
-            const { vecArr, polygonVertexNum, holeVertexNum } = optData;
-            let posOffsetIdx = 0;
-            holeVertexNum.forEach(num => {
-                const hole = new Polygon();
-                for (let i = 0; i < num; i++) {
-                    const v1 = vecArr[polygonVertexNum + posOffsetIdx];
-                    hole.insert(polygonVertexNum + posOffsetIdx, v1);
-                    posOffsetIdx = posOffsetIdx + 1;
-                }
-                canvasDebugDrawer.drawPolygon(hole, color);
-            });
-        });
-    })
-    const navmeshData = navmeshBake(mapData, false, debugLineWidth);
-    navmeshData.forEach(navmeshData0 => {
-        const { convexPolygons } = navmeshData0;
-        for (const [key, polygon] of convexPolygons) {
-            canvasDebugDrawer.drawPolygon(polygon, 颜色.白色, 颜色.灰色, debugLineWidth);
-        }
-    });
-    canvasDebugDrawer.out(OutPath, `${name}4`);
+    const navmeshData = navmeshBake(mapData, opts);
 })
 
 function lt2lb(x: number, y: number): [number, number] {

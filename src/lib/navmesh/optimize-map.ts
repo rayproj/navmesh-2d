@@ -6,13 +6,13 @@ import { scalePolygon } from "../geometry/geometry-math";
 import { new_vec2, Vec2 } from "../geometry/vec2";
 import { OutPath } from "../../generate/generate-navmesh";
 
-const pScale = 1.0000001;
+export const pScaleOptimize = 1.0000001;
 
 export interface IMapOptimizeData {
     vecArr: Vec2[], polygonVertexNum: number, holeVertexNum: number[]
 }
 
-export function optimizeMap(mapData: IMapJsonData, debugLineWidth = 1) {
+export function optimizeMap(mapData: IMapJsonData, pScaleOpt = pScaleOptimize, debugLineWidth = 1) {
     const mapPolygons: [number, number][][] = [];
     const holePolygons: [number, number][][] = [];
 
@@ -33,7 +33,7 @@ export function optimizeMap(mapData: IMapJsonData, debugLineWidth = 1) {
             holePolygon.push(p1);
             posOffsetIdx = posOffsetIdx + 1;
         }
-        holePolygon = scalePolygon(holePolygon, pScale);
+        holePolygon = scalePolygon(holePolygon, pScaleOpt);
         holePolygon.push(holePolygon[0]);
         holePolygons.push(holePolygon);
     })
