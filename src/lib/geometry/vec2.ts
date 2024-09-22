@@ -21,7 +21,7 @@ export class Vec2 {
             Math.abs(this.y - other.y) <= epsilon
     }
 
-    getMidpoint(out: Vec2, other: Vec2) {
+    getMid(out: Vec2, other: Vec2) {
         out.x = this.x + (other.x - this.x) * 0.5;
         out.y = this.y + (other.y - this.y) * 0.5;
         return out;

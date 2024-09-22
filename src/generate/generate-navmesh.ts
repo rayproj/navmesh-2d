@@ -48,11 +48,11 @@ class GenerateNavmesh {
                  * serializePolygons
                  * key : [
                  *  Polygon[_convexPolygonId, _searchPointIdx, _head], 
-                 *  Vertex[id, [pos.x, pos.y], [next], [prev]][]
+                 *  Vertex[id, [pos.x, pos.y], next, prev][]
                  * ]
                  * 
                  * serializeSearchPoints
-                 * SearchPoint[[vec1.x, vec1.y], [vec2.x, vec2.y], polygonId1, polygonId2, [vecMid.x, vecMid.y]][]
+                 * SearchPoint[[vec1.x, vec1.y], [vec2.x, vec2.y], polygonId1, polygonId2][]
                  */
                 const serializePolygons = {} as { [key: number]: any[] };
                 const serializeSearchPoints = [];
@@ -83,8 +83,7 @@ class GenerateNavmesh {
                     serializeSearchPoints.push([
                         [sp.vec1.x, sp.vec1.y],
                         [sp.vec2.x, sp.vec2.y],
-                        sp.polygonId1, sp.polygonId2,
-                        [sp.vecMid.x, sp.vecMid.y]
+                        sp.polygonId1, sp.polygonId2
                     ])
                 });
                 serializePolygonsGroup.push(serializePolygons);

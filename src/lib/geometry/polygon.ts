@@ -201,9 +201,9 @@ export class Polygon {
 
     getInnerVec2() {
         const head = this._head!;
-        const v1 = head.pos!.getMidpoint(new_vec2(), head.next!.pos!);
-        const v2 = head.pos!.getMidpoint(new_vec2(), head.prev!.pos!);
-        return v1.getMidpoint(new_vec2(), v2);
+        const v1 = head.pos!.getMid(new_vec2(), head.next!.pos!);
+        const v2 = head.pos!.getMid(new_vec2(), head.prev!.pos!);
+        return v1.getMid(new_vec2(), v2);
     }
 
     isV1BeforeV2(v1: Vec2, v2: Vec2) {
