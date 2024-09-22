@@ -7,6 +7,7 @@ import { basename, extname } from "path";
 import { sortPolygonCounterClockwise } from "./lib/geometry/geometry-math";
 import { log } from "./debug/log";
 import { navmeshBake, parseOptions } from "./lib/navmesh/navmesh-bake";
+import { generater_navmesh } from "./generate/generate-navmesh";
 
 let t_mapHeight = 0;
 
@@ -59,6 +60,7 @@ parser.parseString(mapStr, (error, result: Tiled) => {
 
     const mapData = { points, polygonVertexNum, holeVertexNum, size, name };
     const navmeshData = navmeshBake(mapData, opts);
+    generater_navmesh.generate(navmeshData, name, opts);
 })
 
 function lt2lb(x: number, y: number): [number, number] {

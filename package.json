@@ -10,8 +10,8 @@
     "xml2js": "^0.6.2"
   },
   "scripts": {
-    "bake-json": "npx tsc && node dist/bake-json map/json/map.json",
-    "bake-json2": "npx tsc && node dist/bake-json map/json/map2.json opt_skip=1",
-    "bake-tiled": "npx tsc && node dist/bake-tiled map/tiled/tiled.tmx debug_lineWidth=10"
+    "bake-json": "npx tsc && node dist/bake-json map/json/map.json gen_fixedFloat=0",
+    "bake-json2": "npx tsc && node dist/bake-json map/json/map2.json opt_skip=1,gen_useArray=1",
+    "bake-tiled": "npx tsc && node dist/bake-tiled map/tiled/tiled.tmx debug_lineWidth=10,gen_useArray=1,gen_fixedFloat=0"
   }
 }

@@ -3,6 +3,7 @@ import { argv } from "process";
 import { IMapJsonData } from "./lib/navmesh/navmesh-build";
 import { log } from "./debug/log";
 import { navmeshBake, parseOptions } from "./lib/navmesh/navmesh-bake";
+import { generater_navmesh } from "./generate/generate-navmesh";
 
 const mapPath = argv[2];
 const opts = argv[3] ? parseOptions(argv[3]) : null;
@@ -13,6 +14,7 @@ if (existsSync(mapPath)) {
         if (mapData) {
             log('load jsonmap success.')
             const navmeshData = navmeshBake(mapData, opts);
+            generater_navmesh.generate(navmeshData, mapData.name, opts);
         }
     }
 }

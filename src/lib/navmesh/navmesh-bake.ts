@@ -9,7 +9,15 @@ import { IMapOptimizeData, optimizeMap, pScaleOptimize } from "./optimize-map";
 
 export interface IBakeOptions {
     opt_skip?: string, opt_pScale?: string,
-    debug_lineWidth?: string
+    debug_lineWidth?: string,
+    /**
+     * 输出为数组类型，文件大小更小
+     */
+    gen_useArray?: string,
+    /**
+     * 对浮点数保留精度
+     */
+    gen_fixedFloat?: string
 }
 
 export function parseOptions(optStr: string): IBakeOptions {
@@ -21,6 +29,11 @@ export function parseOptions(optStr: string): IBakeOptions {
         obj[key] = value;
     });
     return obj;
+}
+
+export interface IBakeNavmeshData {
+    convexPolygons: Map<number, Polygon>;
+    searchPoints: SearchPoint[];
 }
 
 export function navmeshBake(mapData: IMapJsonData, opt: IBakeOptions) {
