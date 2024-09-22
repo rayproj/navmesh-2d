@@ -4,9 +4,9 @@
 
 基于 node.js 构建的路径导航系统，根据输入顶点数据生成离线寻路网格，在 runtime 阶段由 navigation 系统反序列化后用于路径规划。
 
-![](README\1.png)
-![](README\2.png)
-![](README\3.png)
+<img src="README\1.png" style="zoom: 40%;" />
+<img src="README\2.png" style="zoom:5%;" />
+<img src="README\3.png" style="zoom:5%;" />
 
 ## 说明
 
@@ -86,6 +86,9 @@
 
 ## 参考
 
-[^Meadow Mapping]: [DiveRecastNav-Lab1-MeadowMapping](https://github.com/liubai01/DiveRecastNav-Lab1-MeadowMapping)
+[^DiveRecastNav-Lab1-MeadowMapping]: [liubai01/DiveRecastNav-Lab1-MeadowMapping: Recast Navigation Study. Python implementation of `Path planning for a vision-based autonomous robot` (github.com)](https://github.com/liubai01/DiveRecastNav-Lab1-MeadowMapping)
+
+
 
 [^AI - Navmesh 寻路]: [AI - Navmesh 寻路](https://blog.csdn.net/Mhypnos/article/details/134540691)
+
