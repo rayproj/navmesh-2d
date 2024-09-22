@@ -3,9 +3,9 @@
 ![License](https://img.shields.io/github/license/rayproj/navmesh-2d)![GitHub stars](https://img.shields.io/github/stars/rayproj/navmesh-2d?style=social)
 
 基于 node.js 构建的路径导航系统，根据输入顶点数据生成离线寻路网格，在 runtime 阶段由 navigation 系统反序列化后用于路径规划。
-![](.readme\1.png)
-![](.readme\2.png)
-![](.readme\3.png)
+![](README\1.png)
+![](README\2.png)
+![](README\3.png)
 
 ## 说明
 
