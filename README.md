@@ -1,5 +1,9 @@
 # Navmesh-2D
 
+![License](https://img.shields.io/github/license/rayproj/navmesh-2d)
+
+![GitHub stars](https://img.shields.io/github/stars/rayproj/navmesh-2d?style=social)
+
 基于 node.js 构建的路径导航系统，根据输入顶点数据生成离线寻路网格，在 runtime 阶段由 navigation 系统反序列化后用于路径规划。
 ![](.readme\1.png)
 ![](.readme\2.png)
@@ -26,7 +30,7 @@
    | gen_useArray=1       | 设置 生成的 navmesh 数据类型为纯数组，文件大小更小，默认关闭 |
    | gen_fixedFloat=0     | 设置 bake navmesh 时位置数据的浮点数精度，默认关闭           |
 
-## 开始使用
+## 开始
 
 1. clone 后  `npm i` 安装包依赖
 
@@ -80,3 +84,8 @@
      注意：内置的 bake-tiled 处理器中，默认查询地图中名为 `障碍` 的 ObjectGroup 下所有多边形对象为孔洞多边形，以供参考
    
 4. 将 navmesh 目录下生成的数据拷贝到 runtime 目录下的客户端工程（assets/map/），重启 navigation 场景，editor窗口中拖动 [player] [target] 节点查看路径生成
+
+## 参考
+
+[^Meadow Mapping]: [liubai01/DiveRecastNav-Lab1-MeadowMapping: Recast Navigation Study. Python implementation of `Path planning for a vision-based autonomous robot` (github.com)](https://github.com/liubai01/DiveRecastNav-Lab1-MeadowMapping)
+[^AI - Navmesh 寻路]: [AI - Navmesh 寻路_navmesh cocos2dx-CSDN博客](https://blog.csdn.net/Mhypnos/article/details/134540691)
