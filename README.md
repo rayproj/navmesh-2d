@@ -86,9 +86,7 @@
 
 ## 参考
 
-[^DiveRecastNav-Lab1-MeadowMapping]: [liubai01/DiveRecastNav-Lab1-MeadowMapping: Recast Navigation Study. Python implementation of `Path planning for a vision-based autonomous robot` (github.com)](https://github.com/liubai01/DiveRecastNav-Lab1-MeadowMapping)
+- [liubai01/DiveRecastNav-Lab1-MeadowMapping: Recast Navigation Study. Python implementation of `Path planning for a vision-based autonomous robot` (github.com)](https://github.com/liubai01/DiveRecastNav-Lab1-MeadowMapping)
 
-
-
-[^AI - Navmesh 寻路]: [AI - Navmesh 寻路](https://blog.csdn.net/Mhypnos/article/details/134540691)
+- [AI - Navmesh 寻路](https://blog.csdn.net/Mhypnos/article/details/134540691)
 
