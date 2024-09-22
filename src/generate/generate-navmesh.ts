@@ -1,5 +1,5 @@
 import { log } from "../debug/log";
-import { SearchPoint } from "../lib/astar/search-point";
+import { SearchPoint } from "../lib/geometry/search-point";
 import { Polygon } from "../lib/geometry/polygon";
 import { Vertex } from "../lib/geometry/vertex";
 import { IBakeNavmeshData, IBakeOptions } from "../lib/navmesh/navmesh-bake";

@@ -1,7 +1,7 @@
 import { canvasDebugDrawer } from "../../debug/canvas-debug-draw";
 import { 颜色 } from "../../debug/color";
 import { OutPath } from "../../generate/generate-navmesh";
-import { SearchPoint } from "../astar/search-point";
+import { SearchPoint } from "../geometry/search-point";
 import { GeometryMath } from "../geometry/geometry-math";
 import { Line } from "../geometry/line";
 import { Polygon } from "../geometry/polygon";

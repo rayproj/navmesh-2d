@@ -1,7 +1,7 @@
 import { canvasDebugDrawer } from "../../debug/canvas-debug-draw";
 import { randomColor, 颜色 } from "../../debug/color";
 import { OutPath } from "../../generate/generate-navmesh";
-import { SearchPoint } from "../astar/search-point";
+import { SearchPoint } from "../geometry/search-point";
 import { Polygon } from "../geometry/polygon";
 import { new_vec2, Vec2 } from "../geometry/vec2";
 import { IMapJsonData, INavmeshBuildData, navmeshBuild } from "./navmesh-build";
