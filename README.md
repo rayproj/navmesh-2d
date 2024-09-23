@@ -7,6 +7,7 @@
 <img src="README\1.png" style="zoom: 40%;" />
 <img src="README\2.png" style="zoom:5%;" />
 <img src="README\3.png" style="zoom:5%;" />
+<img src="README\4.png" style="zoom:32.5%;" />
 
 ## 说明
 
