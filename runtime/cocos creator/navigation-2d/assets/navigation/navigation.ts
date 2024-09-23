@@ -4,6 +4,7 @@ import { NavVertex } from "./nav-vertex";
 import { SearchPoint } from "./search-point";
 import { AStarQueue } from "./astar-queue";
 import { AStarNode } from "./astar-node";
+import { GeometryMath } from "./geometry-math";
 
 type TVec = Vec3 | Vec2;
 
@@ -27,6 +28,8 @@ class Navigation {
     private _mapIndex = -1;
     private _openList = new AStarQueue();
     private _closeList = new AStarQueue();
+
+    private _pathSmoothing = true;
 
     build(jsonData: string | any) {
         let navmeshData: INavmeshJsonDataArray;
@@ -136,10 +139,11 @@ class Navigation {
             _openList.insert(new AStarNode(idx, route, heuristicCost, curPolygonIdx));
         }
 
-        this.aStarAlgorithm(tarPolygonIdx, tarPos, out);
+        this.aStarAlgorithm(tarPolygonIdx, startPos, tarPos, out);
     }
 
-    private aStarAlgorithm(tarPolygonIdx: number, tarPos: TVec, out: TVec[]) {
+    private aStarAlgorithm(tarPolygonIdx: number,
+        startPos: TVec, tarPos: TVec, out: TVec[]) {
         const { _openList, _closeList } = this;
         const _mapIndex = this._mapIndex;
         const convexPolygons = this._mapPolygons[_mapIndex];
@@ -151,11 +155,11 @@ class Navigation {
         const toPlygonIdx = searchPoint.getToPolygonIdx(tempNode.srcPolygonIdx);
         if (toPlygonIdx === tarPolygonIdx) {
             out.push(tarPos);
-            // if (PathSmoothing) {
-            //     createSmoothPath(node, tarPos);
-            // } else {
-            this.createPath(tempNode, out);
-            // }
+            if (this._pathSmoothing) {
+                this.createSmoothPath(tempNode, startPos, out);
+            } else {
+                this.createPath(tempNode, out);
+            }
             return;
         }
         const toPolygon = convexPolygons.get(toPlygonIdx);
@@ -179,7 +183,7 @@ class Navigation {
                 }
             }
         }
-        this.aStarAlgorithm(tarPolygonIdx, tarPos, out);
+        this.aStarAlgorithm(tarPolygonIdx, startPos, tarPos, out);
     }
 
     private createPath(node: AStarNode, out: TVec[]) {
@@ -192,6 +196,94 @@ class Navigation {
             out.push(next);
             node = node.parentNode;
         } while (node !== null);
+    }
+
+    private createSmoothPath(node: AStarNode, startPos: TVec, out: TVec[]) {
+        const _mapIndex = this._mapIndex;
+        const searchPoints = this._mapSearchPoints[_mapIndex];
+        const convexPolygons = this._mapPolygons[_mapIndex];
+
+        const ret: [Vec2, Vec2][] = [];
+        ret.length = node.passedLineNums + 1;
+        let idx = node.passedLineNums;
+        const tarPos = out[0] as Vec2;
+        ret[idx] = [tarPos, tarPos];
+        do {
+            idx--;
+            const searchPoint = searchPoints[node.searchPointIdx];
+            const polygon = convexPolygons.get(node.srcPolygonIdx);
+            /**
+             * 从出发的多边形角度看，由于多边形是逆时针
+             * 先出现的点在出发者的右边，下一个点即为出发者的左边
+             */
+            if (polygon.isV1BeforeV2(searchPoint.vec1, searchPoint.vec2)) {
+                ret[idx] = [searchPoint.vec2, searchPoint.vec1];
+            } else {
+                ret[idx] = [searchPoint.vec1, searchPoint.vec2];
+            }
+            node = node.parentNode;
+        } while (node !== null);
+
+        let lastVec = startPos as Vec2;
+        let canGoLeftIdx = 0;
+        let canGoRightIdx = 0;
+        let checkLeftIdx = canGoLeftIdx + 1;
+        let checkRightIdx = canGoRightIdx + 1;
+        const temp: Vec2[] = [];
+        const retSize = ret.length;
+        while (checkLeftIdx < retSize && checkRightIdx < retSize) {
+            const canGoLeftPos = ret[canGoLeftIdx][0];
+            const canGoRightPos = ret[canGoRightIdx][1];
+            const checkLeftPos = ret[checkLeftIdx][0];
+            const checkRightPos = ret[checkRightIdx][1];
+
+            const LLVCross = GeometryMath.getVectorCross(lastVec, canGoLeftPos, checkLeftPos);
+            const LRVCross = GeometryMath.getVectorCross(lastVec, canGoLeftPos, checkRightPos);
+            const RLVCross = GeometryMath.getVectorCross(lastVec, canGoRightPos, checkLeftPos);
+            const RRVCross = GeometryMath.getVectorCross(lastVec, canGoRightPos, checkRightPos);
+
+            if (LRVCross < 0) {
+                // 新的两个端点都在 漏斗 leftPos 左侧
+                temp.push(canGoLeftPos);
+                lastVec = canGoLeftPos;
+                canGoLeftIdx = canGoLeftIdx;
+                canGoRightIdx = canGoLeftIdx;
+                checkLeftIdx = canGoLeftIdx + 1;
+                checkRightIdx = canGoRightIdx + 1;
+            } else if (RLVCross > 0) {
+                // 新的两个端点都在 漏斗 rightPos 右侧
+                temp.push(canGoRightPos);
+                lastVec = canGoRightPos;
+                canGoLeftIdx = canGoRightIdx;
+                canGoRightIdx = canGoRightIdx;
+                checkLeftIdx = canGoLeftIdx + 1;
+                checkRightIdx = canGoRightIdx + 1;
+            } else if (LLVCross >= 0 && RRVCross <= 0) {
+                // 新的两个端点 都在 漏斗内测
+                canGoLeftIdx = checkLeftIdx;
+                canGoRightIdx = checkRightIdx;
+                checkLeftIdx = canGoLeftIdx + 1;
+                checkRightIdx = canGoRightIdx + 1;
+            } else if (LLVCross >= 0 && RRVCross > 0) {
+                // 新的左侧端点 在漏斗内，右侧端点 在漏斗 rightPos 右侧
+                canGoLeftIdx = checkLeftIdx;
+                checkLeftIdx = checkLeftIdx + 1;
+                checkRightIdx = checkRightIdx + 1;
+            } else if (LLVCross < 0 && RRVCross <= 0) {
+                // 新的左侧端点 在漏斗 leftPos 左侧，右侧端点 在漏斗内
+                canGoRightIdx = checkRightIdx;
+                checkLeftIdx = checkLeftIdx + 1;
+                checkRightIdx = checkRightIdx + 1;
+            } else if (LLVCross < 0 && RRVCross > 0) {
+                // 新的左侧端点 在漏斗 leftPos 左侧，右侧端点 在漏斗 rightPos 右侧
+                checkLeftIdx = checkLeftIdx + 1;
+                checkRightIdx = checkRightIdx + 1;
+            }
+        }
+
+        while (temp.length !== 0) {
+            out.push(temp.pop());
+        }
     }
 }
 

@@ -1,4 +1,6 @@
-import { Vec2, Vec3 } from "cc";
+import { v2, Vec2, Vec3 } from "cc";
+
+const t_vec1 = v2(), t_vec2 = v2();
 
 export class GeometryMath {
     /**
@@ -33,5 +35,11 @@ export class GeometryMath {
         const offsetX = offsetY / (vL2.y - vL1.y) * (vL2.x - vL1.x);
         const x = vL2.x - offsetX;
         return x >= vR.x;
+    }
+
+    static getVectorCross(a: Vec2, b: Vec2, c: Vec2) {
+        const vectorBA = Vec2.subtract(t_vec1, a, b);
+        const vectorBC = Vec2.subtract(t_vec2, c, b);
+        return vectorBA.cross(vectorBC);
     }
 }

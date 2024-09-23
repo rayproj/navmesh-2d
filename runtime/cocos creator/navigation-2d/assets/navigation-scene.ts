@@ -29,6 +29,10 @@ export class navigation_scene extends Component {
             }
             debug.stroke();
         }, this);
+
+        this.scheduleOnce(() => {
+            game.emit('Seek_Path')
+        })
     }
 
     update(deltaTime: number) {
