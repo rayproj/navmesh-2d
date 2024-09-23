@@ -90,3 +90,4 @@
 
 - [AI - Navmesh 寻路](https://blog.csdn.net/Mhypnos/article/details/134540691)
 
+- [ChatGPT](https://chat.openai.com/chat)
