@@ -81,9 +81,9 @@
 
      `npx tsc && node dist/bake-tiled 地图数据 选项`
 
-     注意：内置的 bake-tiled 处理器中，默认查询地图中名为 `障碍` 的 ObjectGroup 下所有多边形对象为孔洞多边形，以供参考
+     注意：内置的 bake-tiled 处理器中，默认查询地图中名为 `障碍` 的 ObjectGroup 下所有多边形对象为孔洞多边形，以供自定义 tiled 参考
    
-4. 将 navmesh 目录下生成的数据拷贝到 runtime 目录下的客户端工程（assets/map/），重启 navigation 场景，editor窗口中拖动 [player] [target] 节点查看路径生成
+4. 将 navmesh 目录下生成的数据拷贝到 runtime 目录下的客户端工程（assets/map/），更新 navigation 场景中 [map] 节点引用的 navmesh 数据，重启 navigation 场景，editor 窗口中拖动 [player] [target] 节点查看路径生成
 
 ## 参考
 
